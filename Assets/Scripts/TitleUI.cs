@@ -10,8 +10,11 @@ public class TitleUI : MonoBehaviour
 
     void OnDestroy()
     {
-        GameManager.Instance.GameStarted -= OnGameStarted;
-        GameManager.Instance.GameOvered -= OnGameOvered;
+        if (GameManager.HasInstance)
+        {
+            GameManager.Instance.GameStarted -= OnGameStarted;
+            GameManager.Instance.GameOvered -= OnGameOvered;
+        }
     }
 
     private void OnGameStarted()

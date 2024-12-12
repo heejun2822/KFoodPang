@@ -1,18 +1,46 @@
-using UnityEngine;
+using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 
-public class ItemBlock : Block
+public class ItemBlock : Block<Config.ItemType>
 {
-    [SerializeField] private SpriteRenderer[] m_ItemSprites;
+    private static readonly List<FoodBlock> s_TargetBlocks = new();
 
-    public Config.ItemType ItemType { get; private set; }
+    private Boom m_Boom;
+    private Lightning m_Lightning;
 
-    public void SetType(Config.ItemType type)
+    private IItem m_Item;
+
+    protected override void Awake()
     {
-        ItemType = type;
-        for (int i = 0; i < m_ItemSprites.Length; i++)
-        {
-            if (i == (int)type) m_ItemSprites[i].gameObject.SetActive(true);
-            else m_ItemSprites[i].gameObject.SetActive(false);
-        }
+        base.Awake();
+        m_Boom = GetComponent<Boom>();
+        m_Lightning = GetComponent<Lightning>();
+    }
+
+    void OnMouseDown()
+    {
+        if (!Interactable) return;
+        m_Item.Select();
+    }
+
+    async void OnMouseUp()
+    {
+        if (!Interactable) return;
+        await TryPop();
+        m_Item.ResetState();
+    }
+
+    public override void SetType(Config.ItemType type)
+    {
+        base.SetType(type);
+
+        if (type == Config.ItemType.Boom) m_Item = m_Boom;
+        else if (type == Config.ItemType.Lightning) m_Item = m_Lightning;
+    }
+
+    private async UniTask TryPop()
+    {
+        if (!m_Item.GetTargets(s_TargetBlocks)) return;
+        await BlockManager.Instance.PopItemBlock(this, s_TargetBlocks);
     }
 }

@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -9,6 +8,7 @@ public class GameManager : Singleton<GameManager>
     public void StartGame()
     {
         GameStarted?.Invoke();
+        BlockManager.Instance.Initialize();
     }
 
     public void Gameover()

@@ -226,26 +226,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6692611482886301608, guid: edbd5ab89fd254f98bdb9a4cdb828488, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6692611482886301608, guid: edbd5ab89fd254f98bdb9a4cdb828488, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6692611482886301608, guid: edbd5ab89fd254f98bdb9a4cdb828488, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6692611482886301608, guid: edbd5ab89fd254f98bdb9a4cdb828488, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 210.99501
-      objectReference: {fileID: 0}
-    - target: {fileID: 6692611482886301608, guid: edbd5ab89fd254f98bdb9a4cdb828488, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -625,6 +605,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5019314482696353036, guid: a4709b0177be24ac2974b897c580a444, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6593163180316133397, guid: a4709b0177be24ac2974b897c580a444, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -635,6 +619,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6593163180316133397, guid: a4709b0177be24ac2974b897c580a444, type: 3}
       propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6593163180316133397, guid: a4709b0177be24ac2974b897c580a444, type: 3}
+      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -707,6 +695,6 @@ SceneRoots:
   - {fileID: 1447684103792555225}
   - {fileID: 8386871355402802551}
   - {fileID: 680343622793461709}
-  - {fileID: 3328382854510593846}
   - {fileID: 302629426}
+  - {fileID: 3328382854510593846}
   - {fileID: 1678665859}

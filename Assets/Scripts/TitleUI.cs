@@ -1,10 +1,10 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class TitleUI : MonoBehaviour
 {
     void Awake()
     {
-        GameManager.Instance.GameStarted += OnGameStarted;
         GameManager.Instance.GameOvered += OnGameOvered;
     }
 
@@ -12,23 +12,19 @@ public class TitleUI : MonoBehaviour
     {
         if (GameManager.HasInstance)
         {
-            GameManager.Instance.GameStarted -= OnGameStarted;
             GameManager.Instance.GameOvered -= OnGameOvered;
         }
     }
 
-    private void OnGameStarted()
+    private async void OnGameOvered()
     {
-        gameObject.SetActive(false);
-    }
-
-    private void OnGameOvered()
-    {
+        await UniTask.Delay(Config.GAMEOVER_DURATION);
         gameObject.SetActive(true);
     }
 
     public void OnClickStartBtn()
     {
+        gameObject.SetActive(false);
         GameManager.Instance.StartGame();
     }
 }

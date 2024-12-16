@@ -4,7 +4,7 @@ using Random = UnityEngine.Random;
 
 public class Block : MonoBehaviour
 {
-    public static bool Interactable { get; set; } = true;
+    public static bool Interactable { get; set; } = false;
 
     public float Radius { get; private set; }
 

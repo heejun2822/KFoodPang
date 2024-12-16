@@ -1,28 +1,43 @@
 using System;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
     public event Action GameStarted;
     public event Action GameOvered;
+    public event Action TimeUpdated;
     public event Action ScoreUpdated;
     public event Action ComboUpdated;
 
+    public float TimeLeft { get; private set; }
     public int Score { get; private set; }
     public int Combo { get; private set; }
 
     private readonly TimeoutController m_ComboTC = new();
 
-    public void StartGame()
+    public async void StartGame()
     {
         GameStarted?.Invoke();
-        BlockManager.Instance.Initialize();
+        Score = 0;
+        await BlockManager.Instance.Initialize();
+        StartTimer();
     }
 
     public void Gameover()
     {
         GameOvered?.Invoke();
+        BlockManager.Instance.Terminate().Forget();
+    }
+
+    private void StartTimer()
+    {
+        TimeLeft = Config.TIME_LIMIT;
+        DOTween.To(() => TimeLeft, x => TimeLeft = x, 0, Config.TIME_LIMIT)
+            .SetEase(Ease.Linear)
+            .OnUpdate(() => TimeUpdated?.Invoke())
+            .OnComplete(() => Gameover());
     }
 
     public void UpdateScore(int blockCnt)

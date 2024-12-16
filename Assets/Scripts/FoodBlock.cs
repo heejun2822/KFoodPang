@@ -7,7 +7,7 @@ public class FoodBlock : Block<Config.FoodType>
 {
     private static readonly List<FoodBlock> s_SelectedBlocks = new();
 
-    private static void ResetSelectedBlocks()
+    public static void ResetSelectedBlocks()
     {
         foreach (FoodBlock block in s_SelectedBlocks) block.ResetState();
         s_SelectedBlocks.Clear();

@@ -44,9 +44,26 @@ public class BlockManager : Singleton<BlockManager>
         foreach (Block block in m_ActiveBlocks) action(block);
     }
 
-    public void Initialize()
+    public async UniTask Initialize()
     {
+        await UniTask.Delay(Config.START_DELAY);
         for (int _ = 0; _ < Config.BLOCK_CAPACITY; _++) AddFoodBlock();
+        Block.Interactable = true;
+    }
+
+    public async UniTaskVoid Terminate()
+    {
+        Block.Interactable = false;
+        await UniTask.Delay(Config.GAMEOVER_DURATION);
+        FoodBlock.ResetSelectedBlocks();
+        Lightning.Selected?.ResetState();
+
+        foreach (Block block in m_ActiveBlocks)
+        {
+            if (block is FoodBlock foodBlock) m_FoodBlockPool.Release(foodBlock);
+            else if (block is ItemBlock itemBlock) m_ItemBlockPool.Release(itemBlock);
+        }
+        m_ActiveBlocks.Clear();
     }
 
     private void AddFoodBlock()

@@ -78,7 +78,7 @@ public class FoodBlock : Block<Config.FoodType>
 
     private async UniTask TryPop()
     {
-        if (s_SelectedBlocks.Count < Config.MIN_CNT_TO_POP) return;
+        if (s_SelectedBlocks.Count < Config.CNT_TO_POP) return;
         await BlockManager.Instance.PopFoodBlocks(s_SelectedBlocks);
     }
 

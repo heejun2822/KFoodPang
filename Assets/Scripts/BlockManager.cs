@@ -87,8 +87,10 @@ public class BlockManager : Singleton<BlockManager>
             RemoveFoodBlock(block);
             await UniTask.Delay(80);
         }
+        GameManager.Instance.UpdateScore(blocks.Count);
+
         int blockCnt = blocks.Count;
-        if (blockCnt >= 7)
+        if (blockCnt >= Config.CNT_TO_GET_BOOM)
         {
             AddItemBlock(Config.ItemType.Boom, blocks[^1].transform.position);
             blockCnt--;
@@ -107,7 +109,8 @@ public class BlockManager : Singleton<BlockManager>
         RemoveItemBlock(itemBlock);
         await UniTask.Delay(100);
         foreach (FoodBlock block in foodBlocks) RemoveFoodBlock(block);
-        await UniTask.Delay(200);
+        GameManager.Instance.UpdateScore(foodBlocks.Count);
+
         for (int _ = 0; _ < foodBlocks.Count + 1; _++) AddFoodBlock();
 
         ForEachBlocks(block => block.SetDynamic(true));

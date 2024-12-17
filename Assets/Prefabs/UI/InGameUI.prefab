@@ -311,7 +311,7 @@ GameObject:
   - component: {fileID: 4816917642747842068}
   - component: {fileID: 2212789179449039512}
   m_Layer: 5
-  m_Name: FeverGauge
+  m_Name: Fever
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -494,7 +494,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4190288277129959427}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8204923538002357454}
+        m_TargetAssemblyTypeName: InGameUI, Assembly-CSharp
+        m_MethodName: OnClickShakeBtn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1958474957802997656
 GameObject:
   m_ObjectHideFlags: 0
@@ -1444,7 +1456,7 @@ GameObject:
   - component: {fileID: 6717617963454606751}
   - component: {fileID: 7967928681569042127}
   m_Layer: 5
-  m_Name: GaugeBar
+  m_Name: Gauge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -70,6 +70,11 @@ public class InGameUI : MonoBehaviour
         m_ComboComponent.UpdateUI();
     }
 
+    public void OnClickShakeBtn()
+    {
+        BlockManager.Instance.ShakeBlocks();
+    }
+
     private void ResetUI()
     {
         m_TimerComponent.ResetUI();

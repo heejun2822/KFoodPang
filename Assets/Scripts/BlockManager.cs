@@ -17,6 +17,9 @@ public class BlockManager : Singleton<BlockManager>
 
     private bool m_IsTaskInProgress;
 
+    private Vector3 m_RadialDir;
+    private Vector3 m_TangentialDir;
+
     protected override void Awake()
     {
         base.Awake();
@@ -160,5 +163,14 @@ public class BlockManager : Singleton<BlockManager>
 
         ForEachBlocks(block => block.SetDynamic(true));
         Block.Interactable = true;
+    }
+
+    public void ShakeBlocks()
+    {
+        ForEachBlocks(block => {
+            m_RadialDir = block.transform.position - m_AreaBound.Center;
+            m_TangentialDir = Vector3.Cross(m_RadialDir, Vector3.forward).normalized;
+            block.ApplyImpulse(m_TangentialDir * Config.SHAKING_IMPULSE);
+        });
     }
 }

@@ -20,6 +20,11 @@ public class Block : MonoBehaviour
     {
         m_Rigidbody.bodyType = dynamic ? RigidbodyType2D.Dynamic : RigidbodyType2D.Static;
     }
+
+    public void ApplyImpulse(Vector2 impulse)
+    {
+        m_Rigidbody.AddForce(impulse, ForceMode2D.Impulse);
+    }
 }
 
 public class Block<T> : Block where T : Enum

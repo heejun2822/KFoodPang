@@ -5,10 +5,14 @@ public class AreaBound : MonoBehaviour
 {
     [SerializeField] private EdgeCollider2D m_Edge;
 
+    public Vector3 Center { get; private set; }
+
     private Bounds m_SpawnBounds;
 
     void Awake()
     {
+        Center = m_Edge.transform.position;
+
         Vector3 center = new(m_Edge.bounds.center.x, (m_Edge.bounds.center.y + m_Edge.bounds.max.y) / 2, 0);
         Vector3 size = new(m_Edge.bounds.size.x, m_Edge.bounds.size.y / 2, 0);
         m_SpawnBounds = new(center, size);

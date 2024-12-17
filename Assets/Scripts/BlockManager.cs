@@ -124,6 +124,11 @@ public class BlockManager : Singleton<BlockManager>
             AddItemBlock(Config.ItemType.Boom, blocks[^1].transform.position);
             blockCnt--;
         }
+        if (GameManager.Instance.Combo % Config.COMBO_TO_GET_LIGHTNING == 0)
+        {
+            AddItemBlock(Config.ItemType.Lightning);
+            blockCnt--;
+        }
         for (int _ = 0; _ < blockCnt; _++) AddFoodBlock();
 
         ForEachBlocks(block => block.SetDynamic(true));
@@ -145,7 +150,13 @@ public class BlockManager : Singleton<BlockManager>
         m_IsTaskInProgress = false;
         if (GameManager.Instance.TimeLeft == 0) return;
 
-        for (int _ = 0; _ < foodBlocks.Count + 1; _++) AddFoodBlock();
+        int blockCnt = foodBlocks.Count + 1;
+        if (GameManager.Instance.Combo % Config.COMBO_TO_GET_LIGHTNING == 0)
+        {
+            AddItemBlock(Config.ItemType.Lightning);
+            blockCnt--;
+        }
+        for (int _ = 0; _ < blockCnt; _++) AddFoodBlock();
 
         ForEachBlocks(block => block.SetDynamic(true));
         Block.Interactable = true;

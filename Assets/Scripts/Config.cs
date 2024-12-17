@@ -30,7 +30,4 @@ public class Config
     public const int COMBO_DURATION = (int)(2.5f * 1000);
 
     public const int BASIC_BLOCK_SCORE = 100;
-
-    public const int START_DELAY = 1 * 1000;
-    public const int GAMEOVER_DURATION = 3 * 1000;
 }

@@ -110,7 +110,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 210.995, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5841250702105053449
@@ -725,14 +725,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 353801bdcdc1d400f9dd3165c451255f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_StartSign: {fileID: 596904847446369841}
-  m_DimBg: {fileID: 1220034422216919524}
-  m_GameoverSign: {fileID: 100755348339436875}
-  m_TimerGauge: {fileID: 2954611708618548696}
-  m_TimerValue: {fileID: 197212855737674255}
-  m_ScoreValue: {fileID: 7612251177560577745}
-  m_Combo: {fileID: 8799074008599074417}
-  m_ComboValue: {fileID: 7869790689888516294}
+  m_TimerComponent: {fileID: 420245547410276881}
+  m_ScoreComponent: {fileID: 2914014650371331228}
+  m_ComboComponent: {fileID: 558449232979815369}
+  m_ImageFonts: {fileID: 4149132094735485310}
 --- !u!1 &3069822781951282314
 GameObject:
   m_ObjectHideFlags: 0
@@ -819,6 +815,7 @@ GameObject:
   - component: {fileID: 5069503545924456361}
   - component: {fileID: 4360298976860498002}
   - component: {fileID: 6593227596450337040}
+  - component: {fileID: 420245547410276881}
   m_Layer: 5
   m_Name: Timer
   m_TagString: Untagged
@@ -886,6 +883,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &420245547410276881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3162007975762714540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d0ab9c47cb8948f7a7456a57a60400a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TimerGauge: {fileID: 2954611708618548696}
+  m_TimerValue: {fileID: 197212855737674255}
 --- !u!1 &3534782245684948578
 GameObject:
   m_ObjectHideFlags: 0
@@ -1168,6 +1179,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7333937274373274061}
+  - component: {fileID: 4149132094735485310}
   m_Layer: 5
   m_Name: ImageFonts
   m_TagString: Untagged
@@ -1196,6 +1208,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &4149132094735485310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5547049918386380190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6c2e658c8d2e40cdaa011021e4bd4f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_StartSign: {fileID: 596904847446369841}
+  m_DimBg: {fileID: 1220034422216919524}
+  m_GameoverSign: {fileID: 100755348339436875}
 --- !u!1 &5967628470794678670
 GameObject:
   m_ObjectHideFlags: 0
@@ -1491,6 +1518,7 @@ GameObject:
   - component: {fileID: 7360538254080724562}
   - component: {fileID: 3510132736152018612}
   - component: {fileID: 988290651030951846}
+  - component: {fileID: 2914014650371331228}
   m_Layer: 5
   m_Name: Score
   m_TagString: Untagged
@@ -1556,6 +1584,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2914014650371331228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7066320415070530152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2febb1ac876b14135a7064525e5e07c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ScoreValue: {fileID: 7612251177560577745}
 --- !u!1 &7279155527362271171
 GameObject:
   m_ObjectHideFlags: 0
@@ -1894,6 +1935,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7839349046183913137}
+  - component: {fileID: 558449232979815369}
   m_Layer: 5
   m_Name: Combo
   m_TagString: Untagged
@@ -1922,3 +1964,16 @@ RectTransform:
   m_AnchoredPosition: {x: -260, y: -400}
   m_SizeDelta: {x: 480, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &558449232979815369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8799074008599074417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ee61be9dea1446b2a4225c9842c4a23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ComboValue: {fileID: 7869790689888516294}

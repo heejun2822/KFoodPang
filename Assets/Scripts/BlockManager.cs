@@ -15,6 +15,8 @@ public class BlockManager : Singleton<BlockManager>
 
     private HashSet<Block> m_ActiveBlocks = new();
 
+    private bool m_IsTaskInProgress;
+
     protected override void Awake()
     {
         base.Awake();
@@ -44,20 +46,25 @@ public class BlockManager : Singleton<BlockManager>
         foreach (Block block in m_ActiveBlocks) action(block);
     }
 
-    public async UniTask Initialize()
+    public void Initialize()
     {
-        await UniTask.Delay(Config.START_DELAY);
         for (int _ = 0; _ < Config.BLOCK_CAPACITY; _++) AddFoodBlock();
+        ForEachBlocks(block => block.SetDynamic(true));
         Block.Interactable = true;
     }
 
     public async UniTaskVoid Terminate()
     {
         Block.Interactable = false;
-        await UniTask.Delay(Config.GAMEOVER_DURATION);
+        await UniTask.WaitWhile(() => m_IsTaskInProgress);
+
+        ForEachBlocks(block => block.SetDynamic(true));
         FoodBlock.ResetSelectedBlocks();
         Lightning.Selected?.ResetState();
+    }
 
+    public void Clear()
+    {
         foreach (Block block in m_ActiveBlocks)
         {
             if (block is FoodBlock foodBlock) m_FoodBlockPool.Release(foodBlock);
@@ -96,6 +103,8 @@ public class BlockManager : Singleton<BlockManager>
 
     public async UniTask PopFoodBlocks(List<FoodBlock> blocks)
     {
+        m_IsTaskInProgress = true;
+
         Block.Interactable = false;
         ForEachBlocks(block => block.SetDynamic(false));
 
@@ -105,6 +114,9 @@ public class BlockManager : Singleton<BlockManager>
             await UniTask.Delay(80);
         }
         GameManager.Instance.UpdateScore(blocks.Count);
+
+        m_IsTaskInProgress = false;
+        if (GameManager.Instance.TimeLeft == 0) return;
 
         int blockCnt = blocks.Count;
         if (blockCnt >= Config.CNT_TO_GET_BOOM)
@@ -120,6 +132,8 @@ public class BlockManager : Singleton<BlockManager>
 
     public async UniTask PopItemBlock(ItemBlock itemBlock, List<FoodBlock> foodBlocks)
     {
+        m_IsTaskInProgress = true;
+
         Block.Interactable = false;
         ForEachBlocks(block => block.SetDynamic(false));
 
@@ -127,6 +141,9 @@ public class BlockManager : Singleton<BlockManager>
         await UniTask.Delay(100);
         foreach (FoodBlock block in foodBlocks) RemoveFoodBlock(block);
         GameManager.Instance.UpdateScore(foodBlocks.Count);
+
+        m_IsTaskInProgress = false;
+        if (GameManager.Instance.TimeLeft == 0) return;
 
         for (int _ = 0; _ < foodBlocks.Count + 1; _++) AddFoodBlock();
 

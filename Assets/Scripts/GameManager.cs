@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
+    public event Action GameEntered;
     public event Action GameStarted;
     public event Action GameOvered;
+    public event Action GameExited;
     public event Action TimeUpdated;
     public event Action ScoreUpdated;
     public event Action ComboUpdated;
@@ -17,18 +19,25 @@ public class GameManager : Singleton<GameManager>
 
     private readonly TimeoutController m_ComboTC = new();
 
-    public async void StartGame()
+    public async UniTaskVoid StartGame()
     {
+        ResetGame();
+        GameEntered?.Invoke();
+        await UniTask.Delay(1000);
+
+        BlockManager.Instance.Initialize();
         GameStarted?.Invoke();
-        Score = 0;
-        await BlockManager.Instance.Initialize();
         StartTimer();
     }
 
-    public void Gameover()
+    public async UniTaskVoid Gameover()
     {
-        GameOvered?.Invoke();
         BlockManager.Instance.Terminate().Forget();
+        GameOvered?.Invoke();
+        await UniTask.Delay(3000);
+
+        BlockManager.Instance.Clear();
+        GameExited?.Invoke();
     }
 
     private void StartTimer()
@@ -37,7 +46,7 @@ public class GameManager : Singleton<GameManager>
         DOTween.To(() => TimeLeft, x => TimeLeft = x, 0, Config.TIME_LIMIT)
             .SetEase(Ease.Linear)
             .OnUpdate(() => TimeUpdated?.Invoke())
-            .OnComplete(() => Gameover());
+            .OnComplete(() => Gameover().Forget());
     }
 
     public void UpdateScore(int blockCnt)
@@ -69,5 +78,12 @@ public class GameManager : Singleton<GameManager>
             Combo = 0;
             ComboUpdated?.Invoke();
         }
+    }
+
+    private void ResetGame()
+    {
+        TimeLeft = Config.TIME_LIMIT;
+        Score = 0;
+        Combo = 0;
     }
 }

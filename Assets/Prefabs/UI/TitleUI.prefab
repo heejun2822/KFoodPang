@@ -383,6 +383,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6105d1f5254a4cafbf872cac54003fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_ScoreValue: {fileID: 9004310004020923329}
+  m_BestScoreValue: {fileID: 85490274871229240}
 --- !u!1 &4331251032225194636
 GameObject:
   m_ObjectHideFlags: 0

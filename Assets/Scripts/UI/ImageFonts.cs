@@ -12,6 +12,7 @@ public class ImageFonts : MonoBehaviour
     public async UniTaskVoid PopUpStartSign()
     {
         m_StartSign.SetActive(true);
+        await m_StartSign.transform.DOScale(1, 0.6f).From(1.5f).SetEase(Ease.OutBack);
         await UniTask.Delay(1000);
         m_StartSign.SetActive(false);
     }
@@ -19,6 +20,8 @@ public class ImageFonts : MonoBehaviour
     public void ShowGameoverSign()
     {
         m_GameoverSign.SetActive(true);
+        m_GameoverSign.transform.DOScale(1, 0.6f).From(1.5f).SetEase(Ease.OutBack);
+
         m_DimBg.enabled = true;
         m_DimBg.DOFade(0.8f, 2f).From(0).SetEase(Ease.Linear);
     }

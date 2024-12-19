@@ -17,6 +17,7 @@ public class GameManager : Singleton<GameManager>
 
     public float TimeLeft { get; private set; }
     public int Score { get; private set; }
+    public int BestScore { get; private set; }
     public int Combo { get; private set; }
     public float FeverGauge { get; private set; }
     public float FeverTime { get; private set; }
@@ -45,6 +46,7 @@ public class GameManager : Singleton<GameManager>
         m_CTS.Cancel();
         await UniTask.Delay(3000);
 
+        BestScore = Math.Max(BestScore, Score);
         BlockManager.Instance.Clear();
         GameExited?.Invoke();
     }

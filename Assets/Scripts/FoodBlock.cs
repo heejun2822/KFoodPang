@@ -20,6 +20,8 @@ public class FoodBlock : Block<Config.FoodType>
 
     private FoodBlock m_ConnectedBlock;
 
+    private Tween m_BouncingTween;
+
     void FixedUpdate()
     {
         UpdateConnectionMark();
@@ -56,10 +58,7 @@ public class FoodBlock : Block<Config.FoodType>
         IsSelected = true;
         m_SelectionMark.SetActive(true);
         s_SelectedBlocks.Add(this);
-
-        DOTween.Sequence()
-            .Append(m_SpritesContainer.DOScale(1.3f, 0.1f).SetEase(Ease.OutQuad))
-            .Append(m_SpritesContainer.DOScale(1, 0.1f).SetEase(Ease.OutElastic));
+        Bounce();
     }
 
     private bool TryConnect(FoodBlock nextBlock)
@@ -80,6 +79,15 @@ public class FoodBlock : Block<Config.FoodType>
     {
         if (s_SelectedBlocks.Count < Config.CNT_TO_POP) return;
         await BlockManager.Instance.PopFoodBlocks(s_SelectedBlocks);
+    }
+
+    private void Bounce()
+    {
+        m_BouncingTween ??= DOTween.Sequence()
+            .Append(m_SpritesContainer.DOScale(1.3f, 0.1f).SetEase(Ease.OutQuad))
+            .Append(m_SpritesContainer.DOScale(1, 0.1f).SetEase(Ease.OutElastic))
+            .SetAutoKill(false);
+        m_BouncingTween.Restart();
     }
 
     private void UpdateConnectionMark()

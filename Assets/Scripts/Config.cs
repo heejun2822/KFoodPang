@@ -31,5 +31,13 @@ public class Config
 
     public const int BASIC_BLOCK_SCORE = 100;
 
+    public const float FEVER_TIME_SCORE_FACTOR = 2.0f;
+
+    public const float FEVER_GAUGE_PER_BLOCK = 1;
+
+    public const int MAX_FEVER_GAUGE = 40;
+
+    public const int FEVER_TIME_DURATION = 10;
+
     public const float SHAKING_IMPULSE = 4;
 }

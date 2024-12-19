@@ -5,8 +5,10 @@ public class InGameUI : MonoBehaviour
     [SerializeField] private Timer m_TimerComponent;
     [SerializeField] private Score m_ScoreComponent;
     [SerializeField] private Combo m_ComboComponent;
+    [SerializeField] private Fever m_FeverComponent;
 
     [SerializeField] private ImageFonts m_ImageFonts;
+    [SerializeField] private Glow m_Glow;
 
     void Awake()
     {
@@ -19,6 +21,7 @@ public class InGameUI : MonoBehaviour
         GameManager.Instance.TimeUpdated += OnTimeUpdated;
         GameManager.Instance.ScoreUpdated += OnScoreUpdated;
         GameManager.Instance.ComboUpdated += OnComboUpdated;
+        GameManager.Instance.FeverUpdated += OnFeverUpdated;
     }
 
     void OnDestroy()
@@ -32,6 +35,7 @@ public class InGameUI : MonoBehaviour
             GameManager.Instance.TimeUpdated -= OnTimeUpdated;
             GameManager.Instance.ScoreUpdated -= OnScoreUpdated;
             GameManager.Instance.ComboUpdated -= OnComboUpdated;
+            GameManager.Instance.FeverUpdated -= OnFeverUpdated;
         }
     }
 
@@ -53,6 +57,7 @@ public class InGameUI : MonoBehaviour
     private void OnGameExited()
     {
         m_ImageFonts.HideGameoverSign();
+        m_Glow.ResetGlow();
     }
 
     private void OnTimeUpdated()
@@ -70,6 +75,12 @@ public class InGameUI : MonoBehaviour
         m_ComboComponent.UpdateUI();
     }
 
+    private void OnFeverUpdated()
+    {
+        m_FeverComponent.UpdateUI();
+        m_Glow.UpdateGlow();
+    }
+
     public void OnClickShakeBtn()
     {
         BlockManager.Instance.ShakeBlocks();
@@ -80,6 +91,7 @@ public class InGameUI : MonoBehaviour
         m_TimerComponent.ResetUI();
         m_ScoreComponent.ResetUI();
         m_ComboComponent.ResetUI();
+        m_FeverComponent.ResetUI();
         m_ImageFonts.ResetUI();
     }
 }

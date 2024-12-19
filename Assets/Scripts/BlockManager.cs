@@ -116,7 +116,7 @@ public class BlockManager : Singleton<BlockManager>
             RemoveFoodBlock(block);
             await UniTask.Delay(80);
         }
-        GameManager.Instance.UpdateScore(blocks.Count);
+        GameManager.Instance.UpdateStatus(blocks.Count);
 
         m_IsTaskInProgress = false;
         if (GameManager.Instance.TimeLeft == 0) return;
@@ -148,7 +148,7 @@ public class BlockManager : Singleton<BlockManager>
         RemoveItemBlock(itemBlock);
         await UniTask.Delay(100);
         foreach (FoodBlock block in foodBlocks) RemoveFoodBlock(block);
-        GameManager.Instance.UpdateScore(foodBlocks.Count);
+        GameManager.Instance.UpdateStatus(foodBlocks.Count);
 
         m_IsTaskInProgress = false;
         if (GameManager.Instance.TimeLeft == 0) return;

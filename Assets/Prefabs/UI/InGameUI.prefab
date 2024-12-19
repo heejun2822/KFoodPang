@@ -110,7 +110,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 210.99501, y: 0}
   m_SizeDelta: {x: 0, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5841250702105053449
@@ -310,6 +310,7 @@ GameObject:
   - component: {fileID: 6876476712254775876}
   - component: {fileID: 4816917642747842068}
   - component: {fileID: 2212789179449039512}
+  - component: {fileID: 8844619300685412264}
   m_Layer: 5
   m_Name: Fever
   m_TagString: Untagged
@@ -375,6 +376,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8844619300685412264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1028529475495079948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76e973aef67c94bbcb32d7315cd18e69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FeverGauge: {fileID: 7967928681569042127}
 --- !u!1 &1663215823133845714
 GameObject:
   m_ObjectHideFlags: 0
@@ -740,7 +754,9 @@ MonoBehaviour:
   m_TimerComponent: {fileID: 420245547410276881}
   m_ScoreComponent: {fileID: 2914014650371331228}
   m_ComboComponent: {fileID: 558449232979815369}
+  m_FeverComponent: {fileID: 8844619300685412264}
   m_ImageFonts: {fileID: 4149132094735485310}
+  m_Glow: {fileID: 3290361653061685280}
 --- !u!1 &3069822781951282314
 GameObject:
   m_ObjectHideFlags: 0
@@ -1874,6 +1890,7 @@ GameObject:
   - component: {fileID: 2010904999486048015}
   - component: {fileID: 8994255014041469351}
   - component: {fileID: 4746462038366335256}
+  - component: {fileID: 3290361653061685280}
   m_Layer: 5
   m_Name: Glow
   m_TagString: Untagged
@@ -1921,8 +1938,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_Color: {r: 0.23529412, g: 0.14117648, b: 0.011764706, a: 1}
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1938,6 +1955,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3290361653061685280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8262617110518140842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9749c28306f974880b3c6c0b6408b742, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Glow: {fileID: 4746462038366335256}
 --- !u!1 &8799074008599074417
 GameObject:
   m_ObjectHideFlags: 0

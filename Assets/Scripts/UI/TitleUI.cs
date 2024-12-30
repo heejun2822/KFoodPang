@@ -23,6 +23,13 @@ public class TitleUI : MonoBehaviour
     {
         m_ScoreValue.SetText(GameManager.Instance.Score.ToString("N0"));
         m_BestScoreValue.SetText(GameManager.Instance.BestScore.ToString("N0"));
+
+        AudioManager.Instance.PlayMainBgm(Config.AudioId.BGM_Title);
+    }
+
+    void OnDisable()
+    {
+        AudioManager.Instance.StopMainBgm(Config.AudioId.BGM_Title);
     }
 
     private void OnGameExited()
@@ -34,5 +41,7 @@ public class TitleUI : MonoBehaviour
     {
         gameObject.SetActive(false);
         GameManager.Instance.StartGame().Forget();
+
+        AudioManager.Instance.PlaySfx(Config.AudioId.SFX_ButtonClicked);
     }
 }

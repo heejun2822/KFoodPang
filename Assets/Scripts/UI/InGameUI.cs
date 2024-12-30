@@ -47,6 +47,8 @@ public class InGameUI : MonoBehaviour
     private void OnGameStarted()
     {
         m_ImageFonts.PopUpStartSign().Forget();
+
+        AudioManager.Instance.PlayMainBgm(Config.AudioId.BGM_InGame);
     }
 
     private void OnGameOvered()
@@ -58,6 +60,8 @@ public class InGameUI : MonoBehaviour
     {
         m_ImageFonts.HideGameoverSign();
         m_Glow.ResetGlow();
+
+        AudioManager.Instance.StopMainBgm(Config.AudioId.BGM_InGame);
     }
 
     private void OnTimeUpdated()

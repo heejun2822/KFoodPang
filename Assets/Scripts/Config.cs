@@ -15,18 +15,30 @@ public class Config
         Lightning,
     }
 
+    public enum AudioId
+    {
+        None = 0,
+        BGM_Title = 100,
+        BGM_InGame = 101,
+        BGM_Fever = 102,
+        SFX_ButtonClicked = 200,
+        SFX_BlockSelected = 201,
+        SFX_BlockPoped = 202,
+        SFX_Boom = 203,
+        SFX_Lightning = 204,
+    }
+
     public const int BLOCK_CAPACITY = 45;
 
     public const int CNT_TO_POP = 3;
     public const int CNT_TO_GET_BOOM = 7;
-    public const int COMBO_TO_GET_LIGHTNING = 10;
+    public const int COMBO_TO_GET_LIGHTNING = 7;
 
     public const float CONNECTABLE_DISTANCE_FACTOR = 1.5f;
 
     public const float BOOM_RANGE_FACTOR = 2.0f;
 
-    // public const int TIME_LIMIT = 60;
-    public const int TIME_LIMIT = 10;
+    public const int TIME_LIMIT = 60;
 
     public const int COMBO_DURATION = (int)(2.5f * 1000);
 
@@ -40,5 +52,5 @@ public class Config
 
     public const int FEVER_TIME_DURATION = 10;
 
-    public const float SHAKING_IMPULSE = 4;
+    public const float SHAKING_IMPULSE = 6;
 }

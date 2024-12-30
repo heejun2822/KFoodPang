@@ -59,6 +59,8 @@ public class FoodBlock : Block<Config.FoodType>
         m_SelectionMark.SetActive(true);
         s_SelectedBlocks.Add(this);
         Bounce();
+
+        AudioManager.Instance.PlaySfx(Config.AudioId.SFX_BlockSelected);
     }
 
     private bool TryConnect(FoodBlock nextBlock)

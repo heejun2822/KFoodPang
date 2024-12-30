@@ -21,6 +21,8 @@ public class Glow : MonoBehaviour
         m_GlowingTween.Kill();
         m_IsActive = false;
         gameObject.SetActive(false);
+
+        AudioManager.Instance.StopSubBgm(Config.AudioId.BGM_Fever);
     }
 
     private void Activate()
@@ -31,6 +33,8 @@ public class Glow : MonoBehaviour
             .From(0.2f)
             .SetEase(Ease.OutSine)
             .SetLoops(-1, LoopType.Yoyo);
+
+        AudioManager.Instance.PlaySubBgm(Config.AudioId.BGM_Fever);
     }
 
     private async UniTaskVoid DeActivate()
@@ -39,5 +43,7 @@ public class Glow : MonoBehaviour
         await m_Glow.DOFade(0, 0.5f);
         m_IsActive = false;
         gameObject.SetActive(false);
+
+        AudioManager.Instance.StopSubBgm(Config.AudioId.BGM_Fever);
     }
 }

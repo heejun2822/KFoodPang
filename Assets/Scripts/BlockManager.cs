@@ -84,10 +84,13 @@ public class BlockManager : Singleton<BlockManager>
         m_ActiveBlocks.Add(block);
     }
 
-    private void RemoveFoodBlock(FoodBlock block)
+    private void RemoveFoodBlock(FoodBlock block, bool withSound)
     {
         m_FoodBlockPool.Release(block);
         m_ActiveBlocks.Remove(block);
+
+        if (!withSound) return;
+        AudioManager.Instance.PlaySfx(Config.AudioId.SFX_BlockPoped);
     }
 
     private void AddItemBlock(Config.ItemType type, Vector3? position = null)
@@ -102,6 +105,11 @@ public class BlockManager : Singleton<BlockManager>
     {
         m_ItemBlockPool.Release(block);
         m_ActiveBlocks.Remove(block);
+
+        if (block.OwnType == Config.ItemType.Boom)
+            AudioManager.Instance.PlaySfx(Config.AudioId.SFX_Boom);
+        else if (block.OwnType == Config.ItemType.Lightning)
+            AudioManager.Instance.PlaySfx(Config.AudioId.SFX_Lightning);
     }
 
     public async UniTask PopFoodBlocks(List<FoodBlock> blocks)
@@ -113,7 +121,7 @@ public class BlockManager : Singleton<BlockManager>
 
         foreach (FoodBlock block in blocks)
         {
-            RemoveFoodBlock(block);
+            RemoveFoodBlock(block, true);
             await UniTask.Delay(80);
         }
         GameManager.Instance.UpdateStatus(blocks.Count);
@@ -147,7 +155,7 @@ public class BlockManager : Singleton<BlockManager>
 
         RemoveItemBlock(itemBlock);
         await UniTask.Delay(100);
-        foreach (FoodBlock block in foodBlocks) RemoveFoodBlock(block);
+        foreach (FoodBlock block in foodBlocks) RemoveFoodBlock(block, false);
         GameManager.Instance.UpdateStatus(foodBlocks.Count);
 
         m_IsTaskInProgress = false;

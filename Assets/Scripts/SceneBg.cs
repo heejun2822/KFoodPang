@@ -10,6 +10,7 @@ public class SceneBg : MonoBehaviour
 
     void Awake()
     {
+        GameManager.Instance.GameEntered += OnGameEntered;
         GameManager.Instance.FeverTimeToggled += OnFeverTimeToggled;
     }
 
@@ -17,8 +18,14 @@ public class SceneBg : MonoBehaviour
     {
         if (GameManager.HasInstance)
         {
+            GameManager.Instance.GameEntered -= OnGameEntered;
             GameManager.Instance.FeverTimeToggled -= OnFeverTimeToggled;
         }
+    }
+
+    private void OnGameEntered()
+    {
+        m_Background.color = DEFAULT_COLOR;
     }
 
     private void OnFeverTimeToggled()

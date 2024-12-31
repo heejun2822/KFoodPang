@@ -8,7 +8,7 @@ public class GameManager : Singleton<GameManager>
     public event Action GameStarted;
     public event Action GameOvered;
     public event Action GameExited;
-    public event Action ScoreUpdated;
+    public event Action<int> ScoreUpdated;
     public event Action ComboUpdated;
     public event Action FeverTimeToggled;
 
@@ -96,7 +96,7 @@ public class GameManager : Singleton<GameManager>
         if (IsFeverTime) score = (int)(score * Config.FEVER_TIME_SCORE_FACTOR);
 
         Score += score;
-        ScoreUpdated?.Invoke();
+        ScoreUpdated?.Invoke(score);
     }
 
     private void UpdateCombo()

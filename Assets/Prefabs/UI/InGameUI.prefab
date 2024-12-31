@@ -224,6 +224,56 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 0
+--- !u!1 &566556755591866563
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5288484953768555635}
+  - component: {fileID: 6656352852269061721}
+  m_Layer: 5
+  m_Name: ScoreEffect
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5288484953768555635
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 566556755591866563}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5519616191187285792}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &6656352852269061721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 566556755591866563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 133a77aa3fee74425839e789a6707b43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ScoreTextPrefab: {fileID: 4139896529145685691, guid: 997d822111aec42738ff2b16ccffe049, type: 3}
+  ScoreUITransform: {fileID: 7360538254080724562}
 --- !u!1 &596904847446369841
 GameObject:
   m_ObjectHideFlags: 0
@@ -757,6 +807,7 @@ MonoBehaviour:
   m_FeverComponent: {fileID: 8844619300685412264}
   m_ImageFonts: {fileID: 4149132094735485310}
   m_Glow: {fileID: 3290361653061685280}
+  m_ScoreEffect: {fileID: 6656352852269061721}
 --- !u!1 &3069822781951282314
 GameObject:
   m_ObjectHideFlags: 0
@@ -1280,6 +1331,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2010904999486048015}
+  - {fileID: 5288484953768555635}
   m_Father: {fileID: 3420742274327701522}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

@@ -9,6 +9,7 @@ public class InGameUI : MonoBehaviour
 
     [SerializeField] private ImageFonts m_ImageFonts;
     [SerializeField] private Glow m_Glow;
+    [SerializeField] private ScoreEffect m_ScoreEffect;
 
     void Awake()
     {
@@ -62,8 +63,9 @@ public class InGameUI : MonoBehaviour
         AudioManager.Instance.StopMainBgm(Config.AudioId.BGM_InGame);
     }
 
-    private void OnScoreUpdated()
+    private async void OnScoreUpdated(int score)
     {
+        await m_ScoreEffect.DisplayScoreText(score);
         m_ScoreComponent.UpdateUI();
     }
 
@@ -89,5 +91,6 @@ public class InGameUI : MonoBehaviour
         m_ComboComponent.ResetUI();
         m_FeverComponent.ResetUI();
         m_ImageFonts.ResetUI();
+        m_ScoreEffect.ResetScoreTexts();
     }
 }

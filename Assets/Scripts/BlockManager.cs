@@ -20,6 +20,8 @@ public class BlockManager : Singleton<BlockManager>
     private Vector3 m_RadialDir;
     private Vector3 m_TangentialDir;
 
+    public Vector3 LastBlockPosition { get; private set; }
+
     protected override void Awake()
     {
         base.Awake();
@@ -93,11 +95,14 @@ public class BlockManager : Singleton<BlockManager>
         AudioManager.Instance.PlaySfx(Config.AudioId.SFX_BlockPoped);
     }
 
-    private void AddItemBlock(Config.ItemType type, Vector3? position = null)
+    private void AddItemBlock(Config.ItemType type)
     {
         ItemBlock block = m_ItemBlockPool.Get();
         block.SetType(type);
-        block.transform.position = position ?? m_AreaBound.GetRandomSpawnPosition(block.Radius);
+        if (type == Config.ItemType.Boom)
+            block.transform.position = LastBlockPosition;
+        else if (type == Config.ItemType.Lightning)
+            block.transform.position = m_AreaBound.GetRandomSpawnPosition(block.Radius);
         m_ActiveBlocks.Add(block);
     }
 
@@ -124,6 +129,7 @@ public class BlockManager : Singleton<BlockManager>
             RemoveFoodBlock(block, true);
             await UniTask.Delay(80);
         }
+        LastBlockPosition = blocks[^1].transform.position;
         GameManager.Instance.UpdateStatus(blocks.Count);
 
         m_IsTaskInProgress = false;
@@ -132,7 +138,7 @@ public class BlockManager : Singleton<BlockManager>
         int blockCnt = blocks.Count;
         if (blockCnt >= Config.CNT_TO_GET_BOOM)
         {
-            AddItemBlock(Config.ItemType.Boom, blocks[^1].transform.position);
+            AddItemBlock(Config.ItemType.Boom);
             blockCnt--;
         }
         if (GameManager.Instance.Combo % Config.COMBO_TO_GET_LIGHTNING == 0)
@@ -156,6 +162,7 @@ public class BlockManager : Singleton<BlockManager>
         RemoveItemBlock(itemBlock);
         await UniTask.Delay(100);
         foreach (FoodBlock block in foodBlocks) RemoveFoodBlock(block, false);
+        LastBlockPosition = itemBlock.transform.position;
         GameManager.Instance.UpdateStatus(foodBlocks.Count);
 
         m_IsTaskInProgress = false;

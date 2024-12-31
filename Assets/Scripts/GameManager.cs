@@ -30,8 +30,11 @@ public class GameManager : Singleton<GameManager>
     {
         if (!IsPlaying) return;
 
-        TimeLeft -= Time.deltaTime;
-        if (TimeLeft <= 0) Gameover().Forget();
+        if (TimeLeft > 0)
+        {
+            TimeLeft -= Time.deltaTime;
+            if (TimeLeft <= 0) Gameover().Forget();
+        }
 
         if (Combo > 0)
         {

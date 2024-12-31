@@ -28,7 +28,7 @@ public class Glow : MonoBehaviour
         gameObject.SetActive(true);
         m_GlowingTween = m_Glow.DOFade(1, 0.5f)
             .From(0.2f)
-            .SetEase(Ease.OutSine)
+            .SetEase(Ease.InOutSine)
             .SetLoops(-1, LoopType.Yoyo);
 
         AudioManager.Instance.PlaySubBgm(Config.AudioId.BGM_Fever);

@@ -40,7 +40,7 @@ public class Config
 
     public const int TIME_LIMIT = 60;
 
-    public const int COMBO_DURATION = (int)(2.5f * 1000);
+    public const float COMBO_DURATION = 2.5f;
 
     public const int BASIC_BLOCK_SCORE = 100;
 

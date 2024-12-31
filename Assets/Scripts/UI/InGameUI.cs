@@ -18,10 +18,9 @@ public class InGameUI : MonoBehaviour
         GameManager.Instance.GameStarted += OnGameStarted;
         GameManager.Instance.GameOvered += OnGameOvered;
         GameManager.Instance.GameExited += OnGameExited;
-        GameManager.Instance.TimeUpdated += OnTimeUpdated;
         GameManager.Instance.ScoreUpdated += OnScoreUpdated;
         GameManager.Instance.ComboUpdated += OnComboUpdated;
-        GameManager.Instance.FeverUpdated += OnFeverUpdated;
+        GameManager.Instance.FeverTimeToggled += OnFeverTimeToggled;
     }
 
     void OnDestroy()
@@ -32,10 +31,9 @@ public class InGameUI : MonoBehaviour
             GameManager.Instance.GameStarted -= OnGameStarted;
             GameManager.Instance.GameOvered -= OnGameOvered;
             GameManager.Instance.GameExited -= OnGameExited;
-            GameManager.Instance.TimeUpdated -= OnTimeUpdated;
             GameManager.Instance.ScoreUpdated -= OnScoreUpdated;
             GameManager.Instance.ComboUpdated -= OnComboUpdated;
-            GameManager.Instance.FeverUpdated -= OnFeverUpdated;
+            GameManager.Instance.FeverTimeToggled -= OnFeverTimeToggled;
         }
     }
 
@@ -64,11 +62,6 @@ public class InGameUI : MonoBehaviour
         AudioManager.Instance.StopMainBgm(Config.AudioId.BGM_InGame);
     }
 
-    private void OnTimeUpdated()
-    {
-        m_TimerComponent.UpdateUI();
-    }
-
     private void OnScoreUpdated()
     {
         m_ScoreComponent.UpdateUI();
@@ -79,9 +72,8 @@ public class InGameUI : MonoBehaviour
         m_ComboComponent.UpdateUI();
     }
 
-    private void OnFeverUpdated()
+    private void OnFeverTimeToggled()
     {
-        m_FeverComponent.UpdateUI();
         m_Glow.UpdateGlow();
     }
 

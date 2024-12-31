@@ -5,10 +5,16 @@ public class Fever : MonoBehaviour
 {
     [SerializeField] private Image m_FeverGauge;
 
-    public void UpdateUI()
+    void Update()
+    {
+        if (!GameManager.Instance.IsPlaying) return;
+        UpdateUI();
+    }
+
+    private void UpdateUI()
     {
         if (GameManager.Instance.IsFeverTime)
-            m_FeverGauge.fillAmount = GameManager.Instance.FeverTime / Config.FEVER_TIME_DURATION;
+            m_FeverGauge.fillAmount = GameManager.Instance.FeverTimeDuration / Config.FEVER_TIME_DURATION;
         else
             m_FeverGauge.fillAmount = GameManager.Instance.FeverGauge / Config.MAX_FEVER_GAUGE;
     }

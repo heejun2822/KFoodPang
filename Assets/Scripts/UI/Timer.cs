@@ -7,7 +7,13 @@ public class Timer : MonoBehaviour
     [SerializeField] private Image m_TimerGauge;
     [SerializeField] private TextMeshProUGUI m_TimerValue;
 
-    public void UpdateUI()
+    void Update()
+    {
+        if (!GameManager.Instance.IsPlaying) return;
+        UpdateUI();
+    }
+
+    private void UpdateUI()
     {
         m_TimerGauge.fillAmount = GameManager.Instance.TimeLeft / Config.TIME_LIMIT;
         m_TimerValue.SetText(GameManager.Instance.TimeLeft.ToString("N0"));

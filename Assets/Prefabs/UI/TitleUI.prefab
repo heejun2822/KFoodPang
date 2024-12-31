@@ -280,6 +280,7 @@ GameObject:
   - component: {fileID: 5019314482696353036}
   - component: {fileID: 931538304965268225}
   - component: {fileID: 2795688531059566760}
+  - component: {fileID: 4545631851173352060}
   m_Layer: 5
   m_Name: TitleUI
   m_TagString: Untagged
@@ -347,7 +348,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1080, y: 1920}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0.5
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -370,6 +371,20 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &4545631851173352060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2805632027048074440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6105d1f5254a4cafbf872cac54003fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ScoreValue: {fileID: 9004310004020923329}
+  m_BestScoreValue: {fileID: 85490274871229240}
 --- !u!1 &4331251032225194636
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,7 +398,7 @@ GameObject:
   - component: {fileID: 3656023884186378552}
   - component: {fileID: 8469992976900755113}
   m_Layer: 5
-  m_Name: Button
+  m_Name: StartBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -489,7 +504,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3656023884186378552}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4545631851173352060}
+        m_TargetAssemblyTypeName: TitleUI, Assembly-CSharp
+        m_MethodName: OnClickStartBtn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4700499332983997053
 GameObject:
   m_ObjectHideFlags: 0

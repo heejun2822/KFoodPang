@@ -91,6 +91,8 @@ public class BlockManager : Singleton<BlockManager>
         m_FoodBlockPool.Release(block);
         m_ActiveBlocks.Remove(block);
 
+        EffectManager.Instance.PlayPopEffect(block.transform.position);
+
         if (!withSound) return;
         AudioManager.Instance.PlaySfx(Config.AudioId.SFX_BlockPoped);
     }
@@ -112,9 +114,15 @@ public class BlockManager : Singleton<BlockManager>
         m_ActiveBlocks.Remove(block);
 
         if (block.OwnType == Config.ItemType.Boom)
+        {
+            EffectManager.Instance.PlayBoomEffect(block.transform.position);
             AudioManager.Instance.PlaySfx(Config.AudioId.SFX_Boom);
+        }
         else if (block.OwnType == Config.ItemType.Lightning)
+        {
+            EffectManager.Instance.PlayLightningEffect(block.transform.position);
             AudioManager.Instance.PlaySfx(Config.AudioId.SFX_Lightning);
+        }
     }
 
     public async UniTask PopFoodBlocks(List<FoodBlock> blocks)

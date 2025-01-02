@@ -16,6 +16,8 @@ public class AudioManager : Singleton<AudioManager>
     private Config.AudioId m_MainBgmId;
     private Config.AudioId m_SubBgmId;
 
+    public bool IsMute { get; private set; }
+
     protected override void Awake()
     {
         base.Awake();
@@ -61,6 +63,24 @@ public class AudioManager : Singleton<AudioManager>
     public void PlaySfx(Config.AudioId audioId)
     {
         m_SfxPlayer.PlayOneShot(m_AudioMap[audioId]);
+    }
+
+    private void SetMute(bool mute)
+    {
+        m_MainBgmPlayer.mute = mute;
+        m_SubBgmPlayer.mute = mute;
+        m_SfxPlayer.mute = mute;
+        IsMute = mute;
+    }
+
+    public void Mute()
+    {
+        SetMute(true);
+    }
+
+    public void Unmute()
+    {
+        SetMute(false);
     }
 
     [Serializable] public class AudioData

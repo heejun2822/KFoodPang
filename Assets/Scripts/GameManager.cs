@@ -19,6 +19,7 @@ public class GameManager : Singleton<GameManager>
     public int BestScore { get; private set; }
 
     public int Combo { get; private set; }
+    public bool IsComboTimerPaused { get; set; }
     private float m_ComboDuration;
 
     private float m_TargetFeverGauge;
@@ -36,7 +37,7 @@ public class GameManager : Singleton<GameManager>
             if (TimeLeft <= 0) Gameover().Forget();
         }
 
-        if (Combo > 0)
+        if (Combo > 0 && !IsComboTimerPaused)
         {
             m_ComboDuration -= Time.deltaTime;
             if (m_ComboDuration <= 0) ResetCombo();
@@ -70,7 +71,7 @@ public class GameManager : Singleton<GameManager>
     public async UniTaskVoid Gameover()
     {
         TimeLeft = 0;
-        BlockManager.Instance.Terminate().Forget();
+        BlockManager.Instance.Terminate();
         GameOvered?.Invoke();
 
         await UniTask.Delay(3000);

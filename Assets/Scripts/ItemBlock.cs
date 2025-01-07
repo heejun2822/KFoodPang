@@ -1,9 +1,27 @@
 using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
 
 public class ItemBlock : Block<Config.ItemType>
 {
+    public static ItemBlock Selected { get; private set; }
     private static readonly List<FoodBlock> s_TargetBlocks = new();
+
+    public static void TryPop()
+    {
+        if (Selected == null) return;
+
+        if (Selected.GetTargets(s_TargetBlocks))
+        {
+            FoodBlock[] targetBlocks = new FoodBlock[s_TargetBlocks.Count];
+            s_TargetBlocks.CopyTo(targetBlocks);
+            BlockManager.Instance.PopItemBlock(Selected, targetBlocks).Forget();
+        }
+        else
+        {
+            Selected.ResetState();
+        }
+        Selected = null;
+        s_TargetBlocks.Clear();
+    }
 
     private Boom m_Boom;
     private Lightning m_Lightning;
@@ -20,14 +38,13 @@ public class ItemBlock : Block<Config.ItemType>
     void OnMouseDown()
     {
         if (!Interactable) return;
-        m_Item.Select();
+        Select();
     }
 
-    async void OnMouseUp()
+    void OnMouseUp()
     {
         if (!Interactable) return;
-        await TryPop();
-        m_Item.ResetState();
+        TryPop();
     }
 
     public override void SetType(Config.ItemType type)
@@ -38,9 +55,24 @@ public class ItemBlock : Block<Config.ItemType>
         else if (type == Config.ItemType.Lightning) m_Item = m_Lightning;
     }
 
-    private async UniTask TryPop()
+    private void Select()
     {
-        if (!m_Item.GetTargets(s_TargetBlocks)) return;
-        await BlockManager.Instance.PopItemBlock(this, s_TargetBlocks);
+        Selected = this;
+        m_Item.Select();
+    }
+
+    public bool TryConnect(FoodBlock block)
+    {
+        return m_Item.TryConnect(block);
+    }
+
+    private bool GetTargets(List<FoodBlock> targets)
+    {
+        return m_Item.GetTargets(targets);
+    }
+
+    public void ResetState()
+    {
+        m_Item.ResetState();
     }
 }

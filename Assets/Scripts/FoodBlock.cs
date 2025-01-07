@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
@@ -7,9 +6,18 @@ public class FoodBlock : Block<Config.FoodType>
 {
     private static readonly List<FoodBlock> s_SelectedBlocks = new();
 
-    public static void ResetSelectedBlocks()
+    public static void TryPop()
     {
-        foreach (FoodBlock block in s_SelectedBlocks) block.ResetState();
+        if (s_SelectedBlocks.Count >= Config.CNT_TO_POP)
+        {
+            FoodBlock[] selectedBlocks = new FoodBlock[s_SelectedBlocks.Count];
+            s_SelectedBlocks.CopyTo(selectedBlocks);
+            BlockManager.Instance.PopFoodBlocks(selectedBlocks).Forget();
+        }
+        else
+        {
+            foreach (FoodBlock block in s_SelectedBlocks) block.ResetState();
+        }
         s_SelectedBlocks.Clear();
     }
 
@@ -37,20 +45,19 @@ public class FoodBlock : Block<Config.FoodType>
     {
         if (!Interactable) return;
         if (IsSelected) return;
-        if (Lightning.Selected != null)
+        if (ItemBlock.Selected != null)
         {
-            Lightning.Selected.TryConnect(this);
+            ItemBlock.Selected.TryConnect(this);
             return;
         }
         if (s_SelectedBlocks.Count == 0) return;
         if (s_SelectedBlocks[^1].TryConnect(this)) Select();
     }
 
-    async void OnMouseUp()
+    void OnMouseUp()
     {
         if (!Interactable) return;
-        await TryPop();
-        ResetSelectedBlocks();
+        TryPop();
     }
 
     private void Select()
@@ -77,12 +84,6 @@ public class FoodBlock : Block<Config.FoodType>
         return true;
     }
 
-    private async UniTask TryPop()
-    {
-        if (s_SelectedBlocks.Count < Config.CNT_TO_POP) return;
-        await BlockManager.Instance.PopFoodBlocks(s_SelectedBlocks);
-    }
-
     private void Bounce()
     {
         m_BouncingTween ??= DOTween.Sequence()
@@ -103,7 +104,7 @@ public class FoodBlock : Block<Config.FoodType>
         m_ConnectionMark.transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 
-    private void ResetState()
+    public void ResetState()
     {
         IsSelected = false;
         m_SelectionMark.SetActive(false);

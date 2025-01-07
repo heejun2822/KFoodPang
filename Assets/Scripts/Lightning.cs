@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class Lightning : MonoBehaviour, IItem
 {
-    public static Lightning Selected { get; private set; }
-
     [SerializeField] private GameObject m_SelectionMark;
     [SerializeField] private GameObject m_ConnectionMark;
     [SerializeField] private GameObject m_TargetSelectionMark;
@@ -18,7 +16,6 @@ public class Lightning : MonoBehaviour, IItem
 
     public void Select()
     {
-        Selected = this;
         m_SelectionMark.SetActive(true);
     }
 
@@ -48,7 +45,6 @@ public class Lightning : MonoBehaviour, IItem
 
     public void ResetState()
     {
-        Selected = null;
         m_SelectionMark.SetActive(false);
         m_ConnectionMark.SetActive(false);
         m_Connected = null;

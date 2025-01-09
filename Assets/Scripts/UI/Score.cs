@@ -7,11 +7,15 @@ public class Score : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_ScoreValue;
 
     private int m_Score = 0;
+    private Tween m_TextTween;
 
-    public void UpdateUI()
+    public void UpdateUI(int currentScore)
     {
-        DOTween.To(() => m_Score, x => m_Score = x, GameManager.Instance.Score, 1f)
-            .OnUpdate(() => m_ScoreValue.SetText(m_Score.ToString("N0")));
+        m_TextTween?.Kill();
+
+        m_TextTween = DOTween.To(() => m_Score, x => m_Score = x, currentScore, 0.6f)
+            .OnUpdate(() => m_ScoreValue.SetText(m_Score.ToString("N0")))
+            .OnComplete(() => m_TextTween = null);
     }
 
     public void ResetUI()

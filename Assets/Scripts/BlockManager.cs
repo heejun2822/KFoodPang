@@ -58,11 +58,13 @@ public class BlockManager : Singleton<BlockManager>
         Block.Interactable = true;
     }
 
-    public void Terminate()
+    public async UniTask Terminate()
     {
         Block.Interactable = false;
         FoodBlock.TryPop();
         ItemBlock.TryPop();
+
+        await UniTask.WaitUntil(() => m_InProgressTaskCnt == 0);
     }
 
     public void Clear()
@@ -128,16 +130,16 @@ public class BlockManager : Singleton<BlockManager>
     {
         ++m_InProgressTaskCnt;
         ForEachBlocks(block => block.SetDynamic(false));
-
         GameManager.Instance.IsComboTimerPaused = true;
+
+        Vector3 positionCache = blocks[^1].transform.position;
         foreach (FoodBlock block in blocks)
         {
             RemoveFoodBlock(block, true);
             await UniTask.Delay(80);
         }
-        LastBlockPosition = blocks[^1].transform.position;
+        LastBlockPosition = positionCache;
         GameManager.Instance.UpdateStatus(blocks.Length);
-        GameManager.Instance.IsComboTimerPaused = false;
 
         if (GameManager.Instance.TimeLeft > 0)
         {
@@ -158,6 +160,7 @@ public class BlockManager : Singleton<BlockManager>
         if (--m_InProgressTaskCnt == 0)
         {
             ForEachBlocks(block => block.SetDynamic(true));
+            GameManager.Instance.IsComboTimerPaused = false;
         }
     }
 
@@ -165,14 +168,14 @@ public class BlockManager : Singleton<BlockManager>
     {
         ++m_InProgressTaskCnt;
         ForEachBlocks(block => block.SetDynamic(false));
-
         GameManager.Instance.IsComboTimerPaused = true;
+
+        Vector3 positionCache = itemBlock.transform.position;
         RemoveItemBlock(itemBlock);
-        await UniTask.Delay(120);
+        await UniTask.Delay(320);
         foreach (FoodBlock block in foodBlocks) RemoveFoodBlock(block, false);
-        LastBlockPosition = itemBlock.transform.position;
+        LastBlockPosition = positionCache;
         GameManager.Instance.UpdateStatus(foodBlocks.Length);
-        GameManager.Instance.IsComboTimerPaused = false;
 
         if (GameManager.Instance.TimeLeft > 0)
         {
@@ -188,6 +191,7 @@ public class BlockManager : Singleton<BlockManager>
         if (--m_InProgressTaskCnt == 0)
         {
             ForEachBlocks(block => block.SetDynamic(true));
+            GameManager.Instance.IsComboTimerPaused = false;
         }
     }
 

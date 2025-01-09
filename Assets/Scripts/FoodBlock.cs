@@ -24,7 +24,7 @@ public class FoodBlock : Block<Config.FoodType>
     [SerializeField] private GameObject m_SelectionMark;
     [SerializeField] private GameObject m_ConnectionMark;
 
-    public bool IsSelected { get; private set; }
+    public bool IsSelected { get; set; }
 
     private FoodBlock m_ConnectedBlock;
 

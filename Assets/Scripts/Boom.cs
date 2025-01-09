@@ -25,11 +25,12 @@ public class Boom : MonoBehaviour, IItem
         targets.Clear();
         BlockManager.Instance.ForEachBlocks(block => {
             FoodBlock foodBlock = block as FoodBlock;
-            if (foodBlock == null) return;
+            if (foodBlock == null || foodBlock.IsSelected) return;
             float sqrDistance = (foodBlock.transform.position - transform.position).sqrMagnitude;
             float maxSqrDistance = Mathf.Pow(m_Block.Radius * Config.BOOM_RANGE_FACTOR + foodBlock.Radius, 2);
             if (sqrDistance > maxSqrDistance) return;
             targets.Add(foodBlock);
+            foodBlock.IsSelected = true;
         });
         return true;
     }

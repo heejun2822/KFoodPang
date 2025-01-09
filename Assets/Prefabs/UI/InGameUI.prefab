@@ -273,7 +273,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ScoreTextPrefab: {fileID: 4139896529145685691, guid: 997d822111aec42738ff2b16ccffe049, type: 3}
-  ScoreUITransform: {fileID: 7360538254080724562}
+  m_CanvasScaler: {fileID: 7574470051258806056}
+  m_ScoreUITransform: {fileID: 7360538254080724562}
 --- !u!1 &596904847446369841
 GameObject:
   m_ObjectHideFlags: 0

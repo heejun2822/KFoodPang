@@ -53,20 +53,28 @@ MonoBehaviour:
   m_AudioDatas:
   - audioId: 100
     audioClip: {fileID: 8300000, guid: e8616dfed084848909b814ce6786411a, type: 3}
+    volume: 0.75
   - audioId: 101
     audioClip: {fileID: 8300000, guid: 2bcb2a1a79a5a4a36b981d9f19d654fd, type: 3}
+    volume: 0.75
   - audioId: 102
     audioClip: {fileID: 8300000, guid: eb983c05a7a05429b97c742a8f95dbed, type: 3}
+    volume: 0.75
   - audioId: 200
-    audioClip: {fileID: 8300000, guid: a6af4af471a4442a58a20752ba853f30, type: 3}
+    audioClip: {fileID: 8300000, guid: 9919c469b827f47b0b0a02168d29a24a, type: 3}
+    volume: 1
   - audioId: 201
-    audioClip: {fileID: 8300000, guid: 11462cbc222db47dd8cf14a0603a2080, type: 3}
+    audioClip: {fileID: 8300000, guid: 1f5714e35d8c74f4facb7864059242fd, type: 3}
+    volume: 0.5
   - audioId: 202
-    audioClip: {fileID: 8300000, guid: a3e3edf38e30046e183668c9203433d6, type: 3}
+    audioClip: {fileID: 8300000, guid: a0cdf4eda43df4b6295411420f24da4b, type: 3}
+    volume: 0.5
   - audioId: 203
-    audioClip: {fileID: 8300000, guid: 445e624bbb1cc41e69c489ce35863683, type: 3}
+    audioClip: {fileID: 8300000, guid: 173cd69c5b729495aa7e0212aedde9b1, type: 3}
+    volume: 1
   - audioId: 204
-    audioClip: {fileID: 8300000, guid: ba4363177ec73426b91d83e7131cb67d, type: 3}
+    audioClip: {fileID: 8300000, guid: e18e374329b16423896564e170fc8908, type: 3}
+    volume: 1
 --- !u!1 &7679462354372629927
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,7 +126,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
@@ -185,7 +193,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -246,7 +254,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
@@ -313,7 +321,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -374,7 +382,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
@@ -441,7 +449,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0

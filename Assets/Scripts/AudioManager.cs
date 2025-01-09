@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using UnityEngine;
 
 public class AudioManager : Singleton<AudioManager>
@@ -11,7 +12,7 @@ public class AudioManager : Singleton<AudioManager>
 
     [SerializeField] private AudioData[] m_AudioDatas;
 
-    private Dictionary<Config.AudioId, AudioClip> m_AudioMap;
+    private Dictionary<Config.AudioId, AudioData> m_AudioMap;
 
     private Config.AudioId m_MainBgmId;
     private Config.AudioId m_SubBgmId;
@@ -21,13 +22,14 @@ public class AudioManager : Singleton<AudioManager>
     protected override void Awake()
     {
         base.Awake();
-        m_AudioMap = m_AudioDatas.ToDictionary(data => data.audioId, data => data.audioClip);
+        m_AudioMap = m_AudioDatas.ToDictionary(data => data.audioId);
     }
 
     public void PlayMainBgm(Config.AudioId audioId)
     {
         m_MainBgmId = audioId;
-        m_MainBgmPlayer.clip = m_AudioMap[audioId];
+        m_MainBgmPlayer.clip = m_AudioMap[audioId].audioClip;
+        m_MainBgmPlayer.volume = m_AudioMap[audioId].volume;
         m_MainBgmPlayer.Play();
     }
 
@@ -41,11 +43,12 @@ public class AudioManager : Singleton<AudioManager>
 
     public void PlaySubBgm(Config.AudioId audioId)
     {
-        m_MainBgmPlayer.Pause();
+        m_MainBgmPlayer.DOFade(0, 0.6f).OnComplete(() => m_MainBgmPlayer.Pause());
 
         m_SubBgmId = audioId;
-        m_SubBgmPlayer.clip = m_AudioMap[audioId];
+        m_SubBgmPlayer.clip = m_AudioMap[audioId].audioClip;
         m_SubBgmPlayer.Play();
+        m_SubBgmPlayer.DOFade(m_AudioMap[audioId].volume, 0.6f).From(0);
     }
 
     public void StopSubBgm(Config.AudioId audioId)
@@ -53,16 +56,17 @@ public class AudioManager : Singleton<AudioManager>
         if (m_SubBgmId != audioId) return;
 
         m_SubBgmId = Config.AudioId.None;
-        m_SubBgmPlayer.Stop();
+        m_SubBgmPlayer.DOFade(0, 0.6f).OnComplete(() => m_SubBgmPlayer.Stop());
 
         if (m_MainBgmId == Config.AudioId.None) return;
 
         m_MainBgmPlayer.UnPause();
+        m_MainBgmPlayer.DOFade(m_AudioMap[m_MainBgmId].volume, 0.6f).From(0);
     }
 
     public void PlaySfx(Config.AudioId audioId)
     {
-        m_SfxPlayer.PlayOneShot(m_AudioMap[audioId]);
+        m_SfxPlayer.PlayOneShot(m_AudioMap[audioId].audioClip, m_AudioMap[audioId].volume);
     }
 
     private void SetMute(bool mute)
@@ -87,5 +91,6 @@ public class AudioManager : Singleton<AudioManager>
     {
         public Config.AudioId audioId;
         public AudioClip audioClip;
+        public float volume;
     }
 }

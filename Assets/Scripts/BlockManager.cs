@@ -15,7 +15,7 @@ public class BlockManager : Singleton<BlockManager>
 
     private HashSet<Block> m_ActiveBlocks = new();
 
-    private bool m_IsTaskInProgress;
+    private int m_InProgressTaskCnt;
 
     private Vector3 m_RadialDir;
     private Vector3 m_TangentialDir;
@@ -58,14 +58,13 @@ public class BlockManager : Singleton<BlockManager>
         Block.Interactable = true;
     }
 
-    public async UniTaskVoid Terminate()
+    public async UniTask Terminate()
     {
         Block.Interactable = false;
-        await UniTask.WaitWhile(() => m_IsTaskInProgress);
+        FoodBlock.TryPop();
+        ItemBlock.TryPop();
 
-        ForEachBlocks(block => block.SetDynamic(true));
-        FoodBlock.ResetSelectedBlocks();
-        Lightning.Selected?.ResetState();
+        await UniTask.WaitUntil(() => m_InProgressTaskCnt == 0);
     }
 
     public void Clear()
@@ -88,8 +87,11 @@ public class BlockManager : Singleton<BlockManager>
 
     private void RemoveFoodBlock(FoodBlock block, bool withSound)
     {
+        block.ResetState();
         m_FoodBlockPool.Release(block);
         m_ActiveBlocks.Remove(block);
+
+        EffectManager.Instance.PlayPopEffect(block.transform.position);
 
         if (!withSound) return;
         AudioManager.Instance.PlaySfx(Config.AudioId.SFX_BlockPoped);
@@ -108,76 +110,89 @@ public class BlockManager : Singleton<BlockManager>
 
     private void RemoveItemBlock(ItemBlock block)
     {
+        block.ResetState();
         m_ItemBlockPool.Release(block);
         m_ActiveBlocks.Remove(block);
 
         if (block.OwnType == Config.ItemType.Boom)
+        {
+            EffectManager.Instance.PlayBoomEffect(block.transform.position);
             AudioManager.Instance.PlaySfx(Config.AudioId.SFX_Boom);
+        }
         else if (block.OwnType == Config.ItemType.Lightning)
+        {
+            EffectManager.Instance.PlayLightningEffect(block.transform.position);
             AudioManager.Instance.PlaySfx(Config.AudioId.SFX_Lightning);
+        }
     }
 
-    public async UniTask PopFoodBlocks(List<FoodBlock> blocks)
+    public async UniTaskVoid PopFoodBlocks(FoodBlock[] blocks)
     {
-        m_IsTaskInProgress = true;
-
-        Block.Interactable = false;
+        ++m_InProgressTaskCnt;
         ForEachBlocks(block => block.SetDynamic(false));
+        GameManager.Instance.IsComboTimerPaused = true;
 
+        Vector3 positionCache = blocks[^1].transform.position;
         foreach (FoodBlock block in blocks)
         {
             RemoveFoodBlock(block, true);
             await UniTask.Delay(80);
         }
-        LastBlockPosition = blocks[^1].transform.position;
-        GameManager.Instance.UpdateStatus(blocks.Count);
+        LastBlockPosition = positionCache;
+        GameManager.Instance.UpdateStatus(blocks.Length);
 
-        m_IsTaskInProgress = false;
-        if (GameManager.Instance.TimeLeft == 0) return;
-
-        int blockCnt = blocks.Count;
-        if (blockCnt >= Config.CNT_TO_GET_BOOM)
+        if (GameManager.Instance.TimeLeft > 0)
         {
-            AddItemBlock(Config.ItemType.Boom);
-            blockCnt--;
+            int blockCnt = blocks.Length;
+            if (blockCnt >= Config.CNT_TO_GET_BOOM)
+            {
+                AddItemBlock(Config.ItemType.Boom);
+                blockCnt--;
+            }
+            if (GameManager.Instance.Combo % Config.COMBO_TO_GET_LIGHTNING == 0)
+            {
+                AddItemBlock(Config.ItemType.Lightning);
+                blockCnt--;
+            }
+            for (int _ = 0; _ < blockCnt; _++) AddFoodBlock();
         }
-        if (GameManager.Instance.Combo % Config.COMBO_TO_GET_LIGHTNING == 0)
-        {
-            AddItemBlock(Config.ItemType.Lightning);
-            blockCnt--;
-        }
-        for (int _ = 0; _ < blockCnt; _++) AddFoodBlock();
 
-        ForEachBlocks(block => block.SetDynamic(true));
-        Block.Interactable = true;
+        if (--m_InProgressTaskCnt == 0)
+        {
+            ForEachBlocks(block => block.SetDynamic(true));
+            GameManager.Instance.IsComboTimerPaused = false;
+        }
     }
 
-    public async UniTask PopItemBlock(ItemBlock itemBlock, List<FoodBlock> foodBlocks)
+    public async UniTaskVoid PopItemBlock(ItemBlock itemBlock, FoodBlock[] foodBlocks)
     {
-        m_IsTaskInProgress = true;
-
-        Block.Interactable = false;
+        ++m_InProgressTaskCnt;
         ForEachBlocks(block => block.SetDynamic(false));
+        GameManager.Instance.IsComboTimerPaused = true;
 
+        Vector3 positionCache = itemBlock.transform.position;
         RemoveItemBlock(itemBlock);
-        await UniTask.Delay(100);
+        await UniTask.Delay(320);
         foreach (FoodBlock block in foodBlocks) RemoveFoodBlock(block, false);
-        LastBlockPosition = itemBlock.transform.position;
-        GameManager.Instance.UpdateStatus(foodBlocks.Count);
+        LastBlockPosition = positionCache;
+        GameManager.Instance.UpdateStatus(foodBlocks.Length);
 
-        m_IsTaskInProgress = false;
-        if (GameManager.Instance.TimeLeft == 0) return;
-
-        int blockCnt = foodBlocks.Count + 1;
-        if (GameManager.Instance.Combo % Config.COMBO_TO_GET_LIGHTNING == 0)
+        if (GameManager.Instance.TimeLeft > 0)
         {
-            AddItemBlock(Config.ItemType.Lightning);
-            blockCnt--;
+            int blockCnt = foodBlocks.Length + 1;
+            if (GameManager.Instance.Combo % Config.COMBO_TO_GET_LIGHTNING == 0)
+            {
+                AddItemBlock(Config.ItemType.Lightning);
+                blockCnt--;
+            }
+            for (int _ = 0; _ < blockCnt; _++) AddFoodBlock();
         }
-        for (int _ = 0; _ < blockCnt; _++) AddFoodBlock();
 
-        ForEachBlocks(block => block.SetDynamic(true));
-        Block.Interactable = true;
+        if (--m_InProgressTaskCnt == 0)
+        {
+            ForEachBlocks(block => block.SetDynamic(true));
+            GameManager.Instance.IsComboTimerPaused = false;
+        }
     }
 
     public void ShakeBlocks()

@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -9,6 +10,9 @@ public class Block : MonoBehaviour
     public float Radius { get; private set; }
 
     private Rigidbody2D m_Rigidbody;
+
+    [DllImport("__Internal")]
+    public static extern void VibrateDevice(int duration);
 
     protected virtual void Awake()
     {

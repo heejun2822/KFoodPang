@@ -65,8 +65,9 @@ public class InGameUI : MonoBehaviour
 
     private async void OnScoreUpdated(int score)
     {
+        int currentScore = GameManager.Instance.Score;
         await m_ScoreEffect.DisplayScoreText(score);
-        m_ScoreComponent.UpdateUI();
+        m_ScoreComponent.UpdateUI(currentScore);
     }
 
     private void OnComboUpdated()

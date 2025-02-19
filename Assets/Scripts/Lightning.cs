@@ -3,13 +3,17 @@ using UnityEngine;
 
 public class Lightning : MonoBehaviour, IItem
 {
-    public static Lightning Selected { get; private set; }
-
     [SerializeField] private GameObject m_SelectionMark;
     [SerializeField] private GameObject m_ConnectionMark;
     [SerializeField] private GameObject m_TargetSelectionMark;
 
+    private ItemBlock m_Block;
     private FoodBlock m_Connected;
+
+    void Awake()
+    {
+        m_Block = GetComponent<ItemBlock>();
+    }
 
     void FixedUpdate()
     {
@@ -18,13 +22,16 @@ public class Lightning : MonoBehaviour, IItem
 
     public void Select()
     {
-        Selected = this;
         m_SelectionMark.SetActive(true);
     }
 
     public bool TryConnect(FoodBlock block)
     {
         if (m_Connected != null) return false;
+
+        float sqrDistance = (block.transform.position - transform.position).sqrMagnitude;
+        float maxSqrDistance = Mathf.Pow((m_Block.Radius + block.Radius) * Config.CONNECTABLE_DISTANCE_FACTOR, 2);
+        if (sqrDistance > maxSqrDistance) return false;
 
         m_Connected = block;
         m_ConnectionMark.SetActive(true);
@@ -39,16 +46,16 @@ public class Lightning : MonoBehaviour, IItem
         targets.Clear();
         BlockManager.Instance.ForEachBlocks(block => {
             FoodBlock foodBlock = block as FoodBlock;
-            if (foodBlock == null) return;
+            if (foodBlock == null || foodBlock.IsSelected) return;
             if (foodBlock.OwnType != m_Connected.OwnType) return;
             targets.Add(foodBlock);
+            foodBlock.IsSelected = true;
         });
         return true;
     }
 
     public void ResetState()
     {
-        Selected = null;
         m_SelectionMark.SetActive(false);
         m_ConnectionMark.SetActive(false);
         m_Connected = null;

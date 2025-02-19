@@ -47,3 +47,6 @@ TagManager:
   - name: Block
     uniqueID: 580051325
     locked: 0
+  - name: Effect
+    uniqueID: 150505093
+    locked: 0

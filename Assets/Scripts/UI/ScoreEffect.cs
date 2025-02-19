@@ -4,11 +4,13 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.UI;
 
 public class ScoreEffect : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI m_ScoreTextPrefab;
-    [SerializeField] private RectTransform ScoreUITransform;
+    [SerializeField] private CanvasScaler m_CanvasScaler;
+    [SerializeField] private RectTransform m_ScoreUITransform;
 
     private RectTransform m_RectTransform;
 
@@ -47,18 +49,22 @@ public class ScoreEffect : MonoBehaviour
         TextMeshProUGUI scoreText = m_ScoreTextPool.Get();
         scoreText.SetText(score.ToString("N0"));
 
+        float textWidth = scoreText.rectTransform.rect.width;
+        if (score <= 999) textWidth *= 3 / 5f;
+        else if (score <= 9999) textWidth *= 4 / 5f;
+        float limitX = (m_CanvasScaler.referenceResolution.x - textWidth) / 2;
+
         m_ScreenPosition = Camera.main.WorldToScreenPoint(BlockManager.Instance.LastBlockPosition);
         RectTransformUtility.ScreenPointToLocalPointInRectangle(m_RectTransform, m_ScreenPosition, null, out m_LocalPoint);
-        float limitX = (Screen.width - scoreText.rectTransform.rect.width) / 2;
         m_LocalPoint.x = Mathf.Clamp(m_LocalPoint.x, -limitX, limitX);
         scoreText.rectTransform.anchoredPosition = m_LocalPoint;
 
-        await scoreText.rectTransform.DOMoveY(scoreText.rectTransform.rect.height, 0.4f)
+        await scoreText.rectTransform.DOMoveY(scoreText.rectTransform.rect.height, 0.8f)
             .SetRelative(true)
             .SetEase(Ease.OutCubic);
 
         await DOTween.Sequence()
-            .Append(scoreText.rectTransform.DOMove(ScoreUITransform.position, 0.6f))
+            .Append(scoreText.rectTransform.DOMove(m_ScoreUITransform.position, 0.6f))
             .Join(scoreText.rectTransform.DOScale(0.5f, 0.6f));
 
         m_ScoreTextPool.Release(scoreText);

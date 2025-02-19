@@ -59,11 +59,21 @@ public class ItemBlock : Block<Config.ItemType>
     {
         Selected = this;
         m_Item.Select();
+
+        #if UNITY_WEBGL && !UNITY_EDITOR
+            VibrateDevice(10);
+        #endif
     }
 
     public bool TryConnect(FoodBlock block)
     {
-        return m_Item.TryConnect(block);
+        if (!m_Item.TryConnect(block)) return false;
+
+        #if UNITY_WEBGL && !UNITY_EDITOR
+            VibrateDevice(10);
+        #endif
+
+        return true;
     }
 
     private bool GetTargets(List<FoodBlock> targets)

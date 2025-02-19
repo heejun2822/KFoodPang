@@ -68,6 +68,10 @@ public class FoodBlock : Block<Config.FoodType>
         Bounce();
 
         AudioManager.Instance.PlaySfx(Config.AudioId.SFX_BlockSelected);
+
+        #if UNITY_WEBGL && !UNITY_EDITOR
+            VibrateDevice(10);
+        #endif
     }
 
     private bool TryConnect(FoodBlock nextBlock)
